@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, OnInit, AfterViewInit, OnDestroy, signal } from '@angular/core';
 
 @Component({
   selector: 'app-counter',
@@ -10,6 +10,8 @@ import { Component, Input, OnChanges, SimpleChanges, OnInit, AfterViewInit, OnDe
 export class CounterComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
   @Input({ required: true }) duration: number = 0;
   @Input({ required: true }) message: string = '';
+  counter = signal(0);
+  counterReference: number | undefined;
 
   constructor() {
     // No async.
@@ -26,6 +28,10 @@ export class CounterComponent implements OnChanges, OnInit, AfterViewInit, OnDes
     console.group('ngOnInit');
     console.log('duration', this.duration);
     console.log('message', this.message);
+    this.counterReference = window.setInterval(() => {
+      this.counter.update((previousState) => previousState + 1);
+      console.log('counter', this.counter());
+    }, 1000);
     console.groupEnd();
   }
 
@@ -34,6 +40,12 @@ export class CounterComponent implements OnChanges, OnInit, AfterViewInit, OnDes
     console.group('ngOnChanges');
     console.log('changes', changes);
     console.groupEnd();
+
+    const duration = changes['duration'];
+    if(duration && duration.currentValue !== duration.previousValue) {
+      this.doSomething();
+    }
+
   }
 
   ngAfterViewInit(): void {
@@ -47,6 +59,14 @@ export class CounterComponent implements OnChanges, OnInit, AfterViewInit, OnDes
   ngOnDestroy(): void {
     console.group('ngOnDestroy');
     console.log('');
+    window.clearInterval(this.counterReference);
+    console.groupEnd();
+  }
+
+  doSomething(): void {
+    // Sync and async.
+    console.group('doSomething');
+    console.log('Change duration');
     console.groupEnd();
   }
 
