@@ -1,4 +1,4 @@
-<div class="">
+<!-- <div class="">
 	<h3>Cart</h3>
 	@for (product of cart(); track $index) {
 	<div class="group rounded-lg border">
@@ -15,7 +15,9 @@
 		</div>
 	</div>
 	}
-</div>
+</div> -->
+
+<app-header [cart]="cart()" [cartTotal]="cartTotal()" (eventDeleteProductFromCart)="deleteProductFromCartTest($event)"></app-header>
 
 
 <div class="grid grid-cols-3 gap-8">
