@@ -17,7 +17,7 @@
 	}
 </div> -->
 
-<app-header [cart]="cart()" [cartTotal]="cartTotal()" (eventDeleteProductFromCart)="deleteProductFromCartTest($event)"></app-header>
+<app-header (eventDeleteProductFromCart)="deleteProductFromCart($event)"></app-header>
 
 
 <div class="grid grid-cols-3 gap-8">

@@ -1,7 +1,8 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ProductComponent } from '../../components/product/product.component';
 import { Product } from '../../models/product.model';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
+import { CartService } from '../../../shared/services/cart-service/cart.service';
 
 @Component({
   selector: 'app-list',
@@ -13,8 +14,7 @@ import { HeaderComponent } from '../../../shared/components/header/header.compon
 export class ListComponent implements OnInit {
 
   products = signal<Product[]>([]);
-  cart = signal<Product[]>([]);
-  cartTotal = signal<number>(0);
+  private cartService = inject(CartService);
 
 
   constructor() {
@@ -63,27 +63,17 @@ export class ListComponent implements OnInit {
   addToCart(product: Product): void {
     console.group('addToCart');
     console.log('product', product);
-    this.cart.update((previuosState) => [...previuosState, product]);
-    const cartTotal = this.calculateTotal(this.cart());
-    this.cartTotal.update((previousState) => cartTotal);
+    this.cartService.addToCart(product);
+    this.cartService.calculateTotal(this.cartService.cart());
     console.groupEnd();
   }
 
-  calculateTotal(products: Product[]): number {
-    let add = 0;
-    products.forEach((product) => {
-      add += product.price;
-    });
 
-    return add;
-  }
-
-  deleteProductFromCartTest(index: number): void {
+  deleteProductFromCart(index: number): void {
     console.group('deleteProductFromCartTest');
     console.log('product', index);
-    this.cart.update((previuosState) => previuosState.filter((product, position) => position != index));
-    const cartTotal = this.calculateTotal(this.cart());
-    this.cartTotal.update((previousState) => cartTotal);
+    this.cartService.deleteProductFromCart(index);
+    this.cartService.calculateTotal(this.cartService.cart());
     console.groupEnd();
   }
 

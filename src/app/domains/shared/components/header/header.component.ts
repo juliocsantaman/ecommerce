@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject, signal, OnInit } from '@angular/core';
 import { Product } from '../../../products/models/product.model';
+import { CartService } from '../../services/cart-service/cart.service';
 
 @Component({
   selector: 'app-header',
@@ -8,12 +9,21 @@ import { Product } from '../../../products/models/product.model';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
 
   hideSideMenu = signal(true);
-  @Input({ required: true }) cart!: Product[];
-  @Input({ required: true }) cartTotal!: number;
+  private cartService = inject(CartService);
+  cart = this.cartService.cart;
+  cartTotal = this.cartService.cartTotal;
   @Output() eventDeleteProductFromCart = new EventEmitter<number>();
+
+  constructor() {
+
+  }
+
+  ngOnInit(): void {
+      
+  }
 
   toggleSideMenu(): void {
     this.hideSideMenu.update((previousState) => !previousState);
@@ -23,7 +33,6 @@ export class HeaderComponent {
     console.group('deleteProductFromCart');
     console.log('product', index);
     this.eventDeleteProductFromCart.emit(index);
-    //this.cart.update((previuosState) => previuosState.filter((product, position) => position != index));
     console.groupEnd();
   }
 
