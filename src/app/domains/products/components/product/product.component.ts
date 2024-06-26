@@ -1,10 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Product } from '../../models/product.model';
+import { CommonModule } from '@angular/common';
+import { UpperCasePipe, CurrencyPipe, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
+  //imports: [UpperCasePipe, CurrencyPipe, DatePipe],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss'
 })
