@@ -3,6 +3,7 @@ import { ProductComponent } from '../../components/product/product.component';
 import { Product } from '../../models/product.model';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
 import { CartService } from '../../../shared/services/cart-service/cart.service';
+import { ProductService } from '../../../shared/services/product-service/product.service';
 
 @Component({
   selector: 'app-list',
@@ -15,6 +16,7 @@ export class ListComponent implements OnInit {
 
   products = signal<Product[]>([]);
   private cartService = inject(CartService);
+  private productService = inject(ProductService)
 
 
   constructor() {
@@ -26,38 +28,15 @@ export class ListComponent implements OnInit {
   }
 
   getProducts(): void {
-    this.products.set(
-      [
-        {
-          id: Date.now(),
-          img: 'https://picsum.photos/640/640',
-          title: 'Product 1',
-          price: 3000,
-          createdAt: new Date().toISOString()
-        },
-        {
-          id: Date.now(),
-          img: 'https://picsum.photos/640/640',
-          title: 'Product 2',
-          price: 4000,
-          createdAt: new Date().toISOString()
-        },
-        {
-          id: Date.now(),
-          img: 'https://picsum.photos/640/640',
-          title: 'Product 3',
-          price: 5000,
-          createdAt: new Date().toISOString()
-        },
-        {
-          id: Date.now(),
-          img: 'https://picsum.photos/640/640',
-          title: 'Product 4',
-          price: 6000,
-          createdAt: new Date().toISOString()
-        },
-      ]
-    );
+    
+    this.productService.getProducts().subscribe({
+      next: (products: Product[]) => {
+        this.products.set(products);    
+      },
+      error: (error: Error) => {
+        console.error('list.component.ts - getProducts - error', error.message);
+      }
+    });
   }
 
   addToCart(product: Product): void {
