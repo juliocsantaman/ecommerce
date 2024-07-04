@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, Output, inject, signal, OnInit } from '@angular/core';
 import { Product } from '../../../products/models/product.model';
 import { CartService } from '../../services/cart-service/cart.service';
+import { HighlightDirective } from '@shared/directives/highlight.directive';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [],
+  imports: [HighlightDirective],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
