@@ -48,12 +48,12 @@ export class ListComponent implements OnInit {
   }
 
 
-  deleteProductFromCart(index: number): void {
-    console.group('deleteProductFromCartTest');
-    console.log('product', index);
-    this.cartService.deleteProductFromCart(index);
-    this.cartService.calculateTotal(this.cartService.cart());
-    console.groupEnd();
-  }
+  // deleteProductFromCart(index: number): void {
+  //   console.group('deleteProductFromCartTest');
+  //   console.log('product', index);
+  //   this.cartService.deleteProductFromCart(index);
+  //   this.cartService.calculateTotal(this.cartService.cart());
+  //   console.groupEnd();
+  // }
 
 }
