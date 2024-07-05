@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { UpperCasePipe, CurrencyPipe, DatePipe } from '@angular/common';
 import { ReversePipe } from '@shared/pipes/reverse-pipe/reverse.pipe';
 import { TimeAgoPipe } from '@shared/pipes/time-ago-pipe/time-ago.pipe';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [CommonModule, ReversePipe, TimeAgoPipe],
+  imports: [CommonModule, ReversePipe, TimeAgoPipe, RouterModule],
   //imports: [UpperCasePipe, CurrencyPipe, DatePipe],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss'
