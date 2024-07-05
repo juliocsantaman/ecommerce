@@ -2,12 +2,12 @@ import { Component, EventEmitter, Input, Output, inject, signal, OnInit } from '
 import { Product } from '../../../products/models/product.model';
 import { CartService } from '../../services/cart-service/cart.service';
 import { HighlightDirective } from '@shared/directives/highlight.directive';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [HighlightDirective, RouterLink],
+  imports: [HighlightDirective, RouterLink, RouterLinkActive],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
