@@ -1,9 +1,29 @@
-<!-- <app-header (eventDeleteProductFromCart)="deleteProductFromCart($event)"></app-header> -->
+<div class="flex space-x-4">
+	@if (categories().length > 0) {
+		<div class="w-80">
+			<ul>
+				<li>
+					<a [routerLink]="['/']">All</a>
+				</li>
+				@for (item of categories(); track $index) {
+					@if ($index < 5) {
+						<li>
+							<a [routerLink]="['/']" [queryParams]="{category_id: item.id}"> {{ item.name }} </a>
+						</li>
 
-@if (products().length > 0) {
-	<div class="grid grid-cols-3 gap-8">
-		@for (product of products(); track $index) {
-		<app-product [product]="product" (addToCart)="addToCart($event)"></app-product>
-		}
-	</div>
-}
+					}
+	
+				}
+			</ul>
+		</div>
+
+	}
+
+	@if (products().length > 0) {
+		<div class="grid grid-cols-3 gap-8 w-full">
+			@for (product of products(); track $index) {
+			<app-product [product]="product" (addToCart)="addToCart($event)"></app-product>
+			}
+		</div>
+	}
+</div>
