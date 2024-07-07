@@ -1,9 +1,6 @@
 import { Routes } from '@angular/router';
-import { ListComponent } from './domains/products/pages/list/list.component';
-import { AboutComponent } from './domains/info/pages/about/about.component';
 import { NotFoundComponent } from './domains/info/pages/not-found/not-found.component';
 import { LayoutComponent } from '@shared/components/layout/layout.component';
-import { DetailComponent } from './domains/products/pages/detail/detail.component';
 
 export const routes: Routes = [
     {
@@ -12,15 +9,15 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                component: ListComponent
+                loadComponent: () => import('@products/pages/list/list.component').then(m => m.ListComponent)
             },
             {
                 path: 'about',
-                component: AboutComponent
+                loadComponent: () => import('@info/pages/about/about.component').then(m => m.AboutComponent)
             },
             {
                 path: 'detail',
-                component: DetailComponent
+                loadComponent: () => import('@products/pages/detail/detail.component').then(m => m.DetailComponent)
             }
          
         ]
