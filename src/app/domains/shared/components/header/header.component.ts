@@ -3,11 +3,12 @@ import { Product } from '../../../products/models/product.model';
 import { CartService } from '../../services/cart-service/cart.service';
 import { HighlightDirective } from '@shared/directives/highlight.directive';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { PaypalButtonComponent } from '../paypal-button/paypal-button.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [HighlightDirective, RouterLink, RouterLinkActive],
+  imports: [HighlightDirective, RouterLink, RouterLinkActive, PaypalButtonComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })

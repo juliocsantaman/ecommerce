@@ -27,4 +27,9 @@ export class CartService {
 
     this.cartTotal.update((previousState) => add);
   }
+
+  initialCart() {
+    this.cart.set([]);
+    this.cartTotal.set(0);
+  }
 }
