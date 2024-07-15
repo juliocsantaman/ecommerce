@@ -9,6 +9,18 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
+                loadComponent: () => import('./domains/auth/pages/initial/initial.component').then(m => m.InitialComponent)
+            },
+            {
+                path: 'login',
+                loadComponent: () => import('./domains/auth/pages/login/login.component').then(m => m.LoginComponent)
+            },
+            {
+                path: 'register',
+                loadComponent: () => import('./domains/auth/pages/register/register.component').then(m => m.RegisterComponent)
+            },
+            {
+                path: 'product-list',
                 loadComponent: () => import('@products/pages/list/list.component').then(m => m.ListComponent)
             },
             {

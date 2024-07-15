@@ -4,6 +4,7 @@ import { CartService } from '../../services/cart-service/cart.service';
 import { HighlightDirective } from '@shared/directives/highlight.directive';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { PaypalButtonComponent } from '../paypal-button/paypal-button.component';
+import { AuthService } from '@shared/services/auth-service/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -16,6 +17,7 @@ export class HeaderComponent implements OnInit {
 
   hideSideMenu = signal(true);
   private cartService = inject(CartService);
+  private authService = inject(AuthService);
   cart = this.cartService.cart;
   cartTotal = this.cartService.cartTotal;
   @Output() eventDeleteProductFromCart = new EventEmitter<number>();
@@ -37,6 +39,10 @@ export class HeaderComponent implements OnInit {
     console.log('product', index);
     this.eventDeleteProductFromCart.emit(index);
     console.groupEnd();
+  }
+
+  isThereASession(): boolean {
+    return this.authService.session();
   }
 
 }
