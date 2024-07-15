@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '@shared/services/auth-service/auth.service';
 import { Login, User } from '@shared/models/user.model';
+import { LocalStorageService } from '@shared/services/local-storage-service/local-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,7 @@ export class LoginComponent {
   private formBuilder = inject(FormBuilder);
   private router = inject(Router);
   private auth = inject(AuthService);
+  
 
   constructor() {
     this.buildForm();
@@ -53,6 +55,7 @@ export class LoginComponent {
           console.log('User', user);
           console.groupEnd();
           alert('Succeed login');
+          this.auth.saveSession(user);
           this.router.navigateByUrl('product-list');
         },
         error: (error: Error) => {

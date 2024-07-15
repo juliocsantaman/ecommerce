@@ -22,4 +22,25 @@ export class AuthService {
     return this.http.post<User>(URLS.login, user);
   }
 
+  saveSession(user: User): void {
+    this.session.set(user);
+    localStorage.setItem('user', JSON.stringify(user));
+  }
+
+  getSession(): User | null {
+    const user = localStorage.getItem('user');
+
+    if(user) {
+      // console.group('getSession');
+      // console.log('JSON.parse(user)', JSON.parse(user));
+      // console.groupEnd();
+      return JSON.parse(user);
+    }
+
+    return null;
+
+  }
+
+  
+
 }

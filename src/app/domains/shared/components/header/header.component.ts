@@ -5,6 +5,8 @@ import { HighlightDirective } from '@shared/directives/highlight.directive';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { PaypalButtonComponent } from '../paypal-button/paypal-button.component';
 import { AuthService } from '@shared/services/auth-service/auth.service';
+import { LocalStorageService } from '@shared/services/local-storage-service/local-storage.service';
+import { User } from '@shared/models/user.model';
 
 @Component({
   selector: 'app-header',
@@ -41,8 +43,8 @@ export class HeaderComponent implements OnInit {
     console.groupEnd();
   }
 
-  isThereASession(): boolean {
-    return this.authService.session();
+  isThereASession(): User | null {
+    return this.authService.getSession();
   }
 
 }
