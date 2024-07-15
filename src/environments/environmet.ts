@@ -1,4 +1,6 @@
 export const environment = {
   production: false,
-  registerUser: ''
+  hosts: {
+    ecommerce: 'https://localhost:7094/'
+  }
 };

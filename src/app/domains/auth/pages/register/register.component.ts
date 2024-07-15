@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { AuthValidators } from '@shared/utils/auth-validators';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { AuthService } from '@shared/services/auth-service/auth.service';
+import { User } from '@shared/models/user.model';
 
 @Component({
   selector: 'app-register',
@@ -16,6 +18,7 @@ export class RegisterComponent implements OnInit {
   form!: FormGroup;
   private formBuilder = inject(FormBuilder);
   private router = inject(Router);
+  private auth = inject(AuthService);
 
   constructor() {
     this.buildForm();
@@ -41,8 +44,27 @@ export class RegisterComponent implements OnInit {
       console.group('saveRegister');
       console.log('this.form.value', this.form.value);
       console.groupEnd();
-      alert('Succeed register')
-      this.router.navigateByUrl('');
+
+      const user: User = {
+        email: this.form.value.email,
+        password: this.form.value.password,
+        created: new Date().toUTCString()
+      };
+
+      this.auth.registerUser(user).subscribe({
+        next: (user: User) => {
+          console.group('saveRegister');
+          console.log('User', user);
+          console.groupEnd();
+          alert('Succeed register');
+          this.router.navigateByUrl('');
+        },
+        error: (error: Error) => {
+          console.error('register.component.ts - saveRegister - error', error.message);
+        }
+      });
+
+
     }
   }
 
