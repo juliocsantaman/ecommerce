@@ -18,10 +18,12 @@ import { User } from '@shared/models/user.model';
 export class HeaderComponent implements OnInit {
 
   hideSideMenu = signal(true);
+  hideProfileDropDown = signal(true);
   private cartService = inject(CartService);
   private authService = inject(AuthService);
   cart = this.cartService.cart;
   cartTotal = this.cartService.cartTotal;
+  user!: User | null;
   @Output() eventDeleteProductFromCart = new EventEmitter<number>();
 
   constructor() {
@@ -36,6 +38,10 @@ export class HeaderComponent implements OnInit {
     this.hideSideMenu.update((previousState) => !previousState);
   }
 
+  toggleProfileDropDown(): void {
+    this.hideProfileDropDown.update((previousState) => !previousState);
+  }
+
   deleteProductFromCart(index: number): void {
     console.group('deleteProductFromCart');
     console.log('product', index);
@@ -44,7 +50,12 @@ export class HeaderComponent implements OnInit {
   }
 
   isThereASession(): User | null {
-    return this.authService.getSession();
+    this.user = this.authService.getSession();
+    return this.user;
+  }
+
+  signOut(): void {
+    this.authService.signOut();
   }
 
 }

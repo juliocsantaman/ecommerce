@@ -3,6 +3,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Login, User } from '@shared/models/user.model';
 import { URLS } from '../../../../../environments/urls';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class AuthService {
 
   session = signal<any | null>(null);
   private http = inject(HttpClient);
+  private router = inject(Router);
 
   constructor() { }
 
@@ -39,6 +41,11 @@ export class AuthService {
 
     return null;
 
+  }
+
+  signOut(): void {
+    localStorage.removeItem('user');
+    this.router.navigate(['']);
   }
 
   
