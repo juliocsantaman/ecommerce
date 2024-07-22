@@ -16,6 +16,10 @@ import { Login, User } from '@shared/models/user.model';
 export class LoginComponent {
 
   form!: FormGroup;
+  warningMessage: boolean = false;
+  successMessage: boolean = false;
+  errorMessage: boolean = false;
+  loading: boolean = false;
   private formBuilder = inject(FormBuilder);
   private router = inject(Router);
   private auth = inject(AuthService);
@@ -39,6 +43,8 @@ export class LoginComponent {
 
   login() {
     if (this.form.valid) {
+      this.loading = true;
+
       console.group('login');
       console.log('this.form.value', this.form.value);
       console.groupEnd();
@@ -53,17 +59,35 @@ export class LoginComponent {
           console.group('login');
           console.log('User', user);
           console.groupEnd();
-          alert('Succeed login');
-          this.auth.saveSession(user);
-          this.router.navigateByUrl('product-list');
+          //alert('Succeed login');
+          this.successMessage = true;
+          setTimeout(() => {
+            this.successMessage = false;
+            this.auth.saveSession(user);
+            this.router.navigateByUrl('product-list');
+            this.loading = false;
+          }, 2000);
         },
         error: (error: Error) => {
+          this.errorMessage = true;
+          this.loading = false;
+          setTimeout(() => {
+            this.errorMessage = false;
+          }, 5000);
           console.error('login.component.ts - login - error', error.message);
         }
       });
 
 
     }
+  }
+
+  showWarningMessage() {
+    this.warningMessage = true;
+
+    setTimeout(() => {
+      this.warningMessage = false;
+    }, 5000);
   }
 
 
