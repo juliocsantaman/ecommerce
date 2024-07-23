@@ -6,7 +6,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { PaypalButtonComponent } from '../paypal-button/paypal-button.component';
 import { AuthService } from '@shared/services/auth-service/auth.service';
 import { LocalStorageService } from '@shared/services/local-storage-service/local-storage.service';
-import { User } from '@shared/models/user.model';
+import { SignInToken, User } from '@shared/models/user.model';
 
 @Component({
   selector: 'app-header',
@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
   private authService = inject(AuthService);
   cart = this.cartService.cart;
   cartTotal = this.cartService.cartTotal;
-  user!: User | null;
+  user!: SignInToken | null;
   @Output() eventDeleteProductFromCart = new EventEmitter<number>();
 
   constructor() {
@@ -49,7 +49,7 @@ export class HeaderComponent implements OnInit {
     console.groupEnd();
   }
 
-  isThereASession(): User | null {
+  isThereASession(): SignInToken | null {
     this.user = this.authService.getSession();
     return this.user;
   }

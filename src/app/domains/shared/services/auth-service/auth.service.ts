@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { Login, User } from '@shared/models/user.model';
+import { Login, SignInToken, User } from '@shared/models/user.model';
 import { URLS } from '../../../../../environments/urls';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
@@ -20,16 +20,16 @@ export class AuthService {
     return this.http.post<User>(URLS.registerUser, user);
   }
 
-  login(user: Login): Observable<User> {
-    return this.http.post<User>(URLS.login, user);
+  login(user: Login): Observable<SignInToken> {
+    return this.http.post<SignInToken>(URLS.login, user);
   }
 
-  saveSession(user: User): void {
+  saveSession(user: SignInToken): void {
     this.session.set(user);
     localStorage.setItem('user', JSON.stringify(user));
   }
 
-  getSession(): User | null {
+  getSession(): SignInToken | null {
     const user = localStorage.getItem('user');
 
     if(user) {

@@ -4,7 +4,7 @@ import { AuthValidators } from '@shared/utils/auth-validators';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '@shared/services/auth-service/auth.service';
-import { Login, User } from '@shared/models/user.model';
+import { Login, SignInToken, User } from '@shared/models/user.model';
 
 @Component({
   selector: 'app-login',
@@ -55,15 +55,15 @@ export class LoginComponent {
       };
 
       this.auth.login(user).subscribe({
-        next: (user: User) => {
+        next: (signInToken: SignInToken) => {
           console.group('login');
-          console.log('User', user);
+          console.log('User', signInToken);
           console.groupEnd();
           //alert('Succeed login');
           this.successMessage = true;
           setTimeout(() => {
             this.successMessage = false;
-            this.auth.saveSession(user);
+            this.auth.saveSession(signInToken);
             this.router.navigateByUrl('product-list');
             this.loading = false;
           }, 2000);
