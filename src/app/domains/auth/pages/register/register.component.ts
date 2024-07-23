@@ -16,6 +16,10 @@ import { User } from '@shared/models/user.model';
 export class RegisterComponent implements OnInit {
 
   form!: FormGroup;
+  warningMessage: boolean = false;
+  successMessage: boolean = false;
+  errorMessage: boolean = false;
+  loading: boolean = false;
   private formBuilder = inject(FormBuilder);
   private router = inject(Router);
   private auth = inject(AuthService);
@@ -41,6 +45,9 @@ export class RegisterComponent implements OnInit {
 
   saveRegister() {
     if(this.form.valid) {
+
+      this.loading = true;
+
       console.group('saveRegister');
       console.log('this.form.value', this.form.value);
       console.groupEnd();
@@ -56,16 +63,34 @@ export class RegisterComponent implements OnInit {
           console.group('saveRegister');
           console.log('User', user);
           console.groupEnd();
-          alert('Succeed register');
-          this.router.navigateByUrl('');
+          //alert('Succeed register');
+          this.successMessage = true;
+          setTimeout(() => {
+            this.successMessage = false;
+            this.router.navigateByUrl('');
+            this.loading = false;
+          }, 2000);
         },
         error: (error: Error) => {
+          this.errorMessage = true;
+          this.loading = false;
+          setTimeout(() => {
+            this.errorMessage = false;
+          }, 5000);
           console.error('register.component.ts - saveRegister - error', error.message);
         }
       });
 
 
     }
+  }
+
+  showWarningMessage() {
+    this.warningMessage = true;
+
+    setTimeout(() => {
+      this.warningMessage = false;
+    }, 5000);
   }
 
 
