@@ -7,6 +7,8 @@ import { ProductService } from '../../../shared/services/product-service/product
 import { CategoryService } from '@shared/services/category-service/category.service';
 import { Category } from '../../models/category.model';
 import { RouterModule } from '@angular/router';
+import { User } from '@shared/models/user.model';
+import { AuthService } from '@shared/services/auth-service/auth.service';
 
 @Component({
   selector: 'app-list',
@@ -22,7 +24,10 @@ export class ListComponent implements OnInit {
   private cartService = inject(CartService);
   private productService = inject(ProductService);
   private categoryService = inject(CategoryService);
+  private authService = inject(AuthService);
   @Input() category_id?: string;
+
+  userTest!: User;
 
 
   constructor() {
@@ -32,6 +37,7 @@ export class ListComponent implements OnInit {
   ngOnInit(): void {
     //this.getProducts();
     this.getAllCategories();
+    this.getUserData();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -94,4 +100,17 @@ export class ListComponent implements OnInit {
   //     }
   //   });
   // }
+
+  getUserData(): void {
+    this.authService.getUserData('test@test.com').subscribe({
+      next: (user: User) => {
+        console.group('getUserData');
+        console.log('user', user);
+        console.groupEnd();
+      },
+      error: (error: Error) => {
+        console.error('list.component.ts - getUserData - error', error.message);
+      }
+    });
+  }
 }

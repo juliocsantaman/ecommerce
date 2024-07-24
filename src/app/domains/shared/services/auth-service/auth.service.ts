@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Login, SignInToken, User } from '@shared/models/user.model';
 import { URLS } from '../../../../../environments/urls';
@@ -47,6 +47,21 @@ export class AuthService {
     localStorage.removeItem('user');
     this.router.navigate(['']);
   }
+
+  // Test, using token to access.
+  getUserData(email: string): Observable<User> {
+    let url = URLS.getUserData.replace('{email}', email);
+    // Obtén el token desde un servicio de autenticación o almacenamiento seguro
+    const user = this.getSession();
+
+    // Configura los encabezados
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${user?.token}` // Añade el token en el encabezado
+    });
+    return this.http.get<User>(url, {headers});
+  }
+
+  
 
   
 
